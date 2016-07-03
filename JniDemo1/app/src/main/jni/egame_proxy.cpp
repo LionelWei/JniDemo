@@ -4,18 +4,25 @@
 #include <jni.h>
 #include <stdio.h>
 #include <cassert>
-#include "egame_proxy.h"
+
+#define JNIREG_CLASS "android/example/com/jnidemo1/EgameProxyManager"
 
 static jstring getIpAddress(JNIEnv *env, jobject thiz) {
     return env->NewStringUTF("192.168.100000");
 }
 
-
-#define JNIREG_CLASS "android/example/com/jnidemo1/EgameProxyManager"
+static jint getPort(JNIEnv *env, jobject thiz) {
+    jclass targetClass = env->FindClass(JNIREG_CLASS);
+    jfieldID fid = env->GetFieldID(targetClass, "myport", "I");
+    jint port = env->GetIntField(thiz, fid);
+    return port;
+}
 
 static JNINativeMethod gMethods[] = {
 /* name, signature, funcPtr */
-        { "getProxyIp", "()Ljava/lang/String;", (void*) getIpAddress } };
+        { "getProxyIp", "()Ljava/lang/String;", (void*) getIpAddress },
+        { "getProxyPort", "()I", (void*) getPort }
+};
 
 /*
  * Register several native methods for one class.
