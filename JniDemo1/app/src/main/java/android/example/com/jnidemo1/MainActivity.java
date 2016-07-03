@@ -16,8 +16,9 @@ public class MainActivity extends AppCompatActivity {
         EgameProxyManager manager = new EgameProxyManager();
         String ip = manager.getProxyIp();
 //        int port = manager.getProxyPort();
-        int port = 80;
+        int port = manager.getProxyPort();
 
+        manager.haha();
         textView.setText("ip: " + ip + ", port:" + port);
     }
 }
